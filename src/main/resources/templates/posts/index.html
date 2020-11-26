@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials :: head"></head>
+
+<body class="d-flex flex-column h-100">
+<nav th:replace="partials :: nav"></nav>
+
+<main class="flex-shrink-0 mt-5 pt-5 container" role="main">
+   <div th:each="post : ${posts}">
+      <div>author:  date: </div>
+      <div>title: <span th:text="${post.getTitle()}"></span></div>
+      <div th:text="${post.getBody()}"></div>
+      <hr>
+   </div>
+</main>
+
+<footer th:replace="partials :: footer"></footer>
+</body>
+</html>
