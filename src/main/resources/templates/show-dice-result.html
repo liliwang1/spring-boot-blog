@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<div>This is your guess: <span th:text="${guess}"></span></div>
-<div>This is the result of dice-rollings:</div>
-<div th:each="dice : ${dices}">
-    <div th:text="${dice}"></div>
-    <div th:if="${guess == dice}">You win!</div>
-    <div th:if="${guess != dice}">You lost.</div>
-</div>
-<div>You have won <span th:text="${counter}"></span> out of <span th:text="${dices.size()}"></span> guesses</div>
+<head th:replace="partials :: head"></head>
+<body class="d-flex flex-column h-100">
+<nav th:replace="partials :: nav"></nav>
 
+<main class="flex-shrink-0 mt-5 pt-5" role="main">
+    <div>This is your guess: <span th:text="${guess}"></span></div>
+    <div>This is the result of dice-rollings:</div>
+    <div th:each="dice : ${dices}">
+        <div th:text="${dice}"></div>
+        <div th:if="${guess == dice}">You win!</div>
+        <div th:if="${guess != dice}">You lost.</div>
+    </div>
+    <div>You have won <span th:text="${counter}"></span> out of <span th:text="${dices.size()}"></span> guesses</div>
+</main>
+
+<footer th:replace="partials :: footer"></footer>
 </body>
 </html>
