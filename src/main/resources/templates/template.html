@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials :: head('title')"></head>
+<body>
+<nav th:replace="partials :: nav"></nav>
+<nav th:replace="partials :: jumbotron('header')"></nav>
+
+<footer th:replace="partials :: footer"></footer>
+<th:block th:include="partials :: script"></th:block>
+</body>
+</html>

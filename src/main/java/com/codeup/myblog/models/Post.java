@@ -1,4 +1,4 @@
-package com.codeup.myblog;
+package com.codeup.myblog.models;
 
 public class Post {
     private long id;

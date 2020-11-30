@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="partials :: head"></head>
+<head th:replace="partials :: head('show post')"></head>
 
 <body class="d-flex flex-column h-100">
 <nav th:replace="partials :: nav"></nav>
+<nav th:replace="partials :: jumbotron('post')"></nav>
 
 <main class="flex-shrink-0 mt-5 pt-5 container" role="main">
     <div>author:  date: </div>
@@ -12,5 +13,6 @@
 </main>
 
 <footer th:replace="partials :: footer"></footer>
+<th:block th:include="partials :: script"></th:block>
 </body>
 </html>
