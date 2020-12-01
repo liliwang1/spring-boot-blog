@@ -1,6 +1,7 @@
 package com.codeup.myblog.controllers;
 
 import com.codeup.myblog.models.Post;
+import com.codeup.myblog.models.PostRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,12 @@ import java.util.ArrayList;
 
 @Controller
 public class PostController {
+
+    private final PostRepository postDao;
+
+    public PostController(PostRepository postDao) {
+        this.postDao = postDao;
+    }
 
     @GetMapping("/posts")
     public String postsIndex(Model model) {
