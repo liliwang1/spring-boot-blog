@@ -4,10 +4,7 @@ import com.codeup.myblog.models.Post;
 import com.codeup.myblog.models.PostRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -22,29 +19,43 @@ public class PostController {
 
     @GetMapping("/posts")
     public String postsIndex(Model model) {
-        ArrayList<Post> posts = new ArrayList<>();
-        posts.add(new Post(1, "Post 1", "This is the first post."));
-        posts.add(new Post(2, "Post 2", "This is the second post."));
-        model.addAttribute("posts", posts);
+        model.addAttribute("posts", postDao.findAll());
         return "posts/index";
     }
 
     @GetMapping("/posts/{id}")
     public String post(@PathVariable long id, Model model) {
-        Post post = new Post(id, "Post " + id, "This is the post " + id);
-        model.addAttribute("post", post);
+        model.addAttribute("post", postDao.getOne(id));
         return "posts/show";
     }
 
-    @GetMapping("/posts/create")
+    @PostMapping("/posts/{id}")
     @ResponseBody
+    public String editPost(@PathVariable long id,
+                           @RequestParam(name = "newTitle") String newTitle,
+                           @RequestParam(name = "newBody") String newBody,
+                           @RequestParam(name = "deleteConfirm") String deleteConfirm,
+                           Model model)
+    {
+        if (deleteConfirm == null) {
+            Post post = new Post(id, newTitle, newBody);
+            postDao.save(post);
+        } else if (deleteConfirm.equals("true")) {
+            postDao.delete(postDao.getOne(id));
+        }
+//        model.addAttribute("post", postDao.save(post));
+        return "redirect: posts/" + id;
+    }
+
+    @GetMapping("/posts/create")
     public String viewCreatePost() {
-        return "view form to create a post";
+        return "posts/create";
     }
 
     @PostMapping("/posts/create")
     @ResponseBody
-    public String createPost() {
-        return "create a new post";
+    public String createPost(@RequestParam(name = "title") String title, @RequestParam(name = "body") String body) {
+        Post dbpost = postDao.save(new Post(title, body));
+        return "created a new post with id" + dbpost.getId();
     }
 }
