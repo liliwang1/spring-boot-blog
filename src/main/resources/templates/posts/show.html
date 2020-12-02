@@ -28,7 +28,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{/posts/edit}" th:method="post">
+                <form th:action="@{/posts/{id}/edit(id=${post.getId()})}" th:method="post">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="postTitle">Title</label>
@@ -60,7 +60,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{/posts/new}" th:method="post">
+                <form th:action="@{/posts/{id}/delete(id=${post.getId()})}" th:method="post">
                     <div class="modal-body">
                         Delete this post?
                         <input type="hidden" value="true" name="delete">

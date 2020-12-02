@@ -29,46 +29,51 @@ public class PostController {
         return "posts/show";
     }
 
-//    @PostMapping("/posts/{id}")
-//    @ResponseBody
-//    public String editPost(@PathVariable long id,
-//                           @RequestParam(name = "title") String newTitle,
-//                           @RequestParam(name = "body") String newBody,
-//                           @RequestParam(name = "delete") String deleteConfirm,
-//                           Model model)
-//    {
-//        if (deleteConfirm == null) {
-//            Post post = new Post(id, newTitle, newBody);
-//            postDao.save(post);
-//        } else if (deleteConfirm.equals("true")) {
-//            postDao.delete(postDao.getOne(id));
-//        }
-////        model.addAttribute("post", postDao.save(post));
-//        return "redirect: posts/" + id;
-//    }
-
-    // test below
-    @PostMapping("/posts/edit")
-    @ResponseBody
-    public String editPost(@RequestParam(name = "id") long id,
+    // need fixing below
+    @PostMapping("/posts/{id}/edit")
+    public String editPost(@PathVariable long id,
                            @RequestParam(name = "title") String newTitle,
                            @RequestParam(name = "body") String newBody,
                            Model model) {
-
         Post post = new Post(id, newTitle, newBody);
         postDao.save(post);
-        return "redirect: posts/" + id;
+//        model.addAttribute("post", postDao.save(post));
+        return "redirect:/posts/" + id;
     }
 
-    @PostMapping("/posts/new")
-    @ResponseBody
-    public String editPost(@RequestParam(name = "id") long id,
-                           @RequestParam(name = "delete") String deleteConfirm,
-                           Model model) {
+    @PostMapping("/posts/{id}/delete")
+    public String deletePost(@PathVariable long id,
+                             @RequestParam(name = "delete") String deleteConfirm,
+                             Model model) {
         System.out.println(deleteConfirm);
         postDao.delete(postDao.getOne(id));
-        return "redirect: posts/" + id;
+//        model.addAttribute("post", postDao.save(post));
+        return "redirect:/posts/";
     }
+
+
+    // test below
+//    @PostMapping("/posts/edit")
+//    @ResponseBody
+//    public String editPost(@RequestParam(name = "id") long id,
+//                           @RequestParam(name = "title") String newTitle,
+//                           @RequestParam(name = "body") String newBody,
+//                           Model model) {
+//
+//        Post post = new Post(id, newTitle, newBody);
+//        postDao.save(post);
+//        return "redirect: posts/" + id;
+//    }
+//
+//    @PostMapping("/posts/new")
+//    @ResponseBody
+//    public String editPost(@RequestParam(name = "id") long id,
+//                           @RequestParam(name = "delete") String deleteConfirm,
+//                           Model model) {
+//        System.out.println(deleteConfirm);
+//        postDao.delete(postDao.getOne(id));
+//        return "redirect: posts/" + id;
+//    }
     // test above
 
     @GetMapping("/posts/create")
@@ -77,9 +82,8 @@ public class PostController {
     }
 
     @PostMapping("/posts/create")
-    @ResponseBody
     public String createPost(@RequestParam(name = "title") String title, @RequestParam(name = "body") String body) {
         Post dbpost = postDao.save(new Post(title, body));
-        return "created a new post with id" + dbpost.getId();
+        return "redirect:/posts/" + dbpost.getId();
     }
 }
