@@ -29,23 +29,47 @@ public class PostController {
         return "posts/show";
     }
 
-    @PostMapping("/posts/{id}")
+//    @PostMapping("/posts/{id}")
+//    @ResponseBody
+//    public String editPost(@PathVariable long id,
+//                           @RequestParam(name = "title") String newTitle,
+//                           @RequestParam(name = "body") String newBody,
+//                           @RequestParam(name = "delete") String deleteConfirm,
+//                           Model model)
+//    {
+//        if (deleteConfirm == null) {
+//            Post post = new Post(id, newTitle, newBody);
+//            postDao.save(post);
+//        } else if (deleteConfirm.equals("true")) {
+//            postDao.delete(postDao.getOne(id));
+//        }
+////        model.addAttribute("post", postDao.save(post));
+//        return "redirect: posts/" + id;
+//    }
+
+    // test below
+    @PostMapping("/posts/edit")
     @ResponseBody
-    public String editPost(@PathVariable long id,
-                           @RequestParam(name = "newTitle") String newTitle,
-                           @RequestParam(name = "newBody") String newBody,
-                           @RequestParam(name = "deleteConfirm") String deleteConfirm,
-                           Model model)
-    {
-        if (deleteConfirm == null) {
-            Post post = new Post(id, newTitle, newBody);
-            postDao.save(post);
-        } else if (deleteConfirm.equals("true")) {
-            postDao.delete(postDao.getOne(id));
-        }
-//        model.addAttribute("post", postDao.save(post));
+    public String editPost(@RequestParam(name = "id") long id,
+                           @RequestParam(name = "title") String newTitle,
+                           @RequestParam(name = "body") String newBody,
+                           Model model) {
+
+        Post post = new Post(id, newTitle, newBody);
+        postDao.save(post);
         return "redirect: posts/" + id;
     }
+
+    @PostMapping("/posts/new")
+    @ResponseBody
+    public String editPost(@RequestParam(name = "id") long id,
+                           @RequestParam(name = "delete") String deleteConfirm,
+                           Model model) {
+        System.out.println(deleteConfirm);
+        postDao.delete(postDao.getOne(id));
+        return "redirect: posts/" + id;
+    }
+    // test above
 
     @GetMapping("/posts/create")
     public String viewCreatePost() {
