@@ -2,6 +2,7 @@ package com.codeup.myblog.controllers;
 
 import com.codeup.myblog.models.Post;
 import com.codeup.myblog.models.PostRepository;
+import com.codeup.myblog.models.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,9 +11,11 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
 
     private final PostRepository postDao;
+    private final UserRepository userDao;
 
-    public PostController(PostRepository postDao) {
+    public PostController(PostRepository postDao, UserRepository userDao) {
         this.postDao = postDao;
+        this.userDao = userDao;
     }
 
     @GetMapping("/posts")
@@ -53,7 +56,7 @@ public class PostController {
 
     @PostMapping("/posts/create")
     public String createPost(@RequestParam(name = "title") String title, @RequestParam(name = "body") String body) {
-        Post dbpost = postDao.save(new Post(title, body));
+        Post dbpost = postDao.save(new Post(title, body, userDao.getOne(1L)));
         return "redirect:/posts/" + dbpost.getId();
     }
 }

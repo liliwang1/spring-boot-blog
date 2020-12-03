@@ -7,11 +7,12 @@
 <nav th:replace="partials :: jumbotron('post')"></nav>
 
 <main class="flex-shrink-0 mt-5 pt-5 container" role="main">
-    <div class="card" style="width: 18rem;">
+    <div class="card text-center" style="width: 100%;">
         <img src="" class="card-img-top" alt="">
         <div class="card-body">
             <h5 class="card-title"><span th:text="${post.getTitle()}"></span></h5>
             <h6 class="card-subtitle mb-2 text-muted">author: date: update: </h6>
+            <h6 class="card-subtitle mb-2 text-muted">user: <span th:text="${post.getUser().getEmail()}"></span> </h6>
             <p class="card-text" th:text="${post.getBody()}"></p>
             <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#editModal">edit</a>
             <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">delete</a>
@@ -39,7 +40,7 @@
                         <div class="form-group">
                             <label for="exampleFormControlTextarea1">Post</label>
                             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="body"
-                                      th:value="${post.getBody()}"></textarea>
+                                      th:text="${post.getBody()}"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
