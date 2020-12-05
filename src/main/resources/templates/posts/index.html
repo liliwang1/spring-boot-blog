@@ -11,6 +11,8 @@
       <div>author:  date: </div>
       <div>title: <span th:text="${post.getTitle()}"></span></div>
       <div th:text="${post.getBody()}"></div>
+      <div th:text="${post.getUser().getEmail()}"></div>
+      <a th:href="@{|/posts/${post.getId()}|}" class="btn btn-primary">view post</a>
       <hr>
    </div>
 </main>
