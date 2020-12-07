@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="partials :: head('profile')">
+<body>
+<nav th:replace="partials :: nav"></nav>
+<header th:replace="partials :: jumbotron('Welcome to your profile!')"></header>
+
+<main class="container">
+    <div sec:authorize="isAuthenticated()">
+        This content is only shown to authenticated users.
+
+        User ID: <span th:text="${#authentication.principal.id}"/>
+        Username: <span th:text="${#authentication.principal.userName}"/>
+        Email: <span th:text="${#authentication.principal.email}"/>
+    </div>
+
+</main>
+<footer th:replace="partials :: footer"></footer>
+<th:block th:include="partials :: script"></th:block>
+</body>
+</html>

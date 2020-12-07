@@ -2,8 +2,10 @@ package com.codeup.myblog.controllers;
 
 import com.codeup.myblog.models.Post;
 import com.codeup.myblog.models.PostRepository;
+import com.codeup.myblog.models.User;
 import com.codeup.myblog.models.UserRepository;
 import com.codeup.myblog.services.EmailService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -65,7 +67,8 @@ public class PostController {
 
     @PostMapping("/posts/create")
     public String createPost(@ModelAttribute Post post) {
-        post.setUser(userDao.getOne(2L));
+        User userDb = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        post.setUser(userDb);
         Post dbpost = postDao.save(post);
         emailService.prepareAndSend(dbpost, "you have created a new post", "you have successfully created a post with id " + dbpost.getId());
         return "redirect:/posts/" + dbpost.getId();
