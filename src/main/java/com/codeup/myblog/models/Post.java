@@ -1,5 +1,7 @@
 package com.codeup.myblog.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -18,9 +20,10 @@ public class Post {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String body;
 
-   @ManyToOne
-   @JoinColumn(name = "user_id")
-   private User user;
+    @ManyToOne
+    @JsonManagedReference
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Post(long id, String title, String body, User user) {
         this.id = id;

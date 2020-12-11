@@ -12,6 +12,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class PostController {
@@ -80,5 +81,15 @@ public class PostController {
         Post dbpost = postDao.save(post);
         emailService.prepareAndSend(dbpost, "you have created a new post", "you have successfully created a post with id " + dbpost.getId());
         return "redirect:/posts/" + dbpost.getId();
+    }
+
+    @GetMapping("/posts.json")
+    public @ResponseBody List<Post> viewAllAdsInJSONFormat() {
+        return postDao.findAll();
+    }
+
+    @GetMapping("/posts/ajax")
+    public String viewAllAdsWithAjax() {
+        return "posts/ajax";
     }
 }
