@@ -6,16 +6,79 @@
 <nav th:replace="partials :: nav"></nav>
 <nav th:replace="partials :: jumbotron('My Blog')"></nav>
 
-<main class="flex-shrink-0 mt-5 pt-5 container" role="main">
-   <div th:each="post : ${posts}">
-      <div>author:  date: </div>
-      <div>title: <span th:text="${post.getTitle()}"></span></div>
-      <div th:text="${post.getBody()}"></div>
-      <div th:text="${post.getUser().getEmail()}"></div>
-      <a th:href="@{|/posts/${post.getId()}|}" class="btn btn-primary">view post</a>
-      <hr>
-   </div>
-</main>
+<!--<main class="flex-shrink-0 mt-5 pt-5 container" role="main">-->
+<!--    <div th:each="post : ${posts}">-->
+<!--        <div>author: date:</div>-->
+<!--        <div>title: <span th:text="${post.getTitle()}"></span></div>-->
+<!--        <div th:text="${post.getBody()}"></div>-->
+<!--        <div th:text="${post.getUser().getEmail()}"></div>-->
+<!--        <a th:href="@{|/posts/${post.getId()}|}" class="btn btn-primary">view post</a>-->
+<!--        <hr>-->
+<!--    </div>-->
+<!--</main>-->
+
+<div class="container">
+    <!-- Show the ads -->
+    <div th:each="post : ${page}">
+        <h1 th:text="${post.title}"/>
+        <p th:text="${post.body}"/>
+    </div>
+
+    <!-- Build the pagination component -->
+    <nav class="text-center">
+        <ul class="pagination">
+            <li th:class="${page.isFirst()}? 'disabled' : ''">
+                <span th:if='${page.isFirst()}'>← First</span>
+                <a th:if='${not page.isFirst()}' th:href="'?page=0'">
+                    ← First
+                </a>
+            </li>
+            <li th:class="${page.hasPrevious()}? '' : 'disabled'">
+                <span th:if='${not page.hasPrevious()}'>«</span>
+                <a
+                        th:if='${page.hasPrevious()}'
+                        th:href="'?page=' + ${page.getNumber() - 1}"
+                        title='Go to previous page'
+                >
+                    «
+                </a>
+            </li>
+            <-- Show a link to each page -->
+            <li th:each="i : ${#numbers.sequence(1, page.getTotalPages())}">
+                <span
+                        th:if='${(i - 1) == param.page}'
+                        th:text='${i}'>
+                    1
+                </span>
+                <a
+                        th:if='${not ((i - 1) == param.page)}'
+                        th:href="'?page=' + ${(i -1)}"
+                >
+                    <span th:text='${i}'>1</span>
+                </a>
+            </li>
+            <li th:class="${page.hasNext()} ? '' : 'disabled'">
+                <span th:if='${not page.hasNext()}'>»</span>
+                <a
+                        th:if='${page.hasNext()}'
+                        th:href="'?page=' + ${page.getNumber() + 1}"
+                        title='Go to next page'
+                >
+                    »
+                </a>
+            </li>
+            <li th:class="${page.isLast()}? 'disabled' : ''">
+                <span th:if='${page.isLast()}'>Last →</span>
+                <a
+                        th:if='${not page.isLast()}'
+                        th:href="'?page=' + ${page.getTotalPages() - 1}"
+                >
+                    Last →
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
 
 <footer th:replace="partials :: footer"></footer>
 <th:block th:include="partials :: script"></th:block>

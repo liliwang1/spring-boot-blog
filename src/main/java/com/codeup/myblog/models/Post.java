@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "posts")
@@ -14,6 +15,7 @@ public class Post {
 
     @NotBlank(message = "Post must have a title")
     @Column(nullable = false, length = 100)
+    @Size(min = 3, message = "A title must be at least 3 characters.")
     private String title;
 
     @NotBlank(message = "Post must have a body")
