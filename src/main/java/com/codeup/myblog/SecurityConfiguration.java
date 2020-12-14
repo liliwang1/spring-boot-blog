@@ -55,6 +55,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/posts/{id}/edit" // only authenticated users can edit ads
                 )
                 .authenticated()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/posts/?/disable")
+                .hasAuthority("ADMIN") // only admins can disable ads
+        // .hasAnyAuthority("ADMIN", "SELLER") // You can specify several roles too
         ;
     }
 }

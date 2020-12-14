@@ -27,6 +27,21 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column
+    private boolean disabled = false;
+
+    public void disable() {
+        this.disabled = true;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
+
     public Post(long id, String title, String body, User user) {
         this.id = id;
         this.title = title;

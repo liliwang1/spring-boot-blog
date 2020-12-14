@@ -1,5 +1,6 @@
 package com.codeup.myblog.services;
 
+import com.codeup.myblog.models.RoleRepository;
 import com.codeup.myblog.models.User;
 import com.codeup.myblog.models.UserRepository;
 import com.codeup.myblog.models.UserWithRoles;
@@ -11,9 +12,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsLoader implements UserDetailsService {
     private final UserRepository usersDao;
+    private final RoleRepository rolesDao;
 
-    public UserDetailsLoader(UserRepository usersDao) {
+    public UserDetailsLoader(UserRepository usersDao, RoleRepository rolesDao) {
         this.usersDao = usersDao;
+        this.rolesDao = rolesDao;
     }
 
     @Override
@@ -23,6 +26,6 @@ public class UserDetailsLoader implements UserDetailsService {
             throw new UsernameNotFoundException("No user found for " + username);
         }
 
-        return new UserWithRoles(user);
+        return new UserWithRoles(user, rolesDao.ofUserWith(username));
     }
 }

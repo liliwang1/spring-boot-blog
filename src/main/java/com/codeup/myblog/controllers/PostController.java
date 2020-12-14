@@ -38,63 +38,71 @@ public class PostController {
         return "posts/index";
     }
 
-//    // send post data to the whole page
-//    @GetMapping("/posts/{id}")
-//    public String showPost(@PathVariable long id, Model model) {
-//        model.addAttribute("post", postDao.getOne(id));
-//        return "posts/show";
-//    }
-//
-//    // send post data to the edit form
-//    @GetMapping("/posts/{id}/edit")
-//    public String showEditForm(@PathVariable long id, Model model) {
-//        model.addAttribute("post", postDao.getOne(id));
-//        return "posts/show";
-//    }
-//
-//    @PostMapping("/posts/{id}/edit")
-//    public String editPost(@PathVariable long id, @ModelAttribute Post editedPost) {
-//        editedPost.setUser(postDao.getOne(id).getUser());
-//        postDao.save(editedPost);
-//        return "redirect:/posts/" + id;
-//    }
-//
-//    @PostMapping("/posts/{id}/delete")
-//    public String deletePost(@PathVariable long id,
-//                             @RequestParam(name = "delete") String deleteConfirm)
-//    {
-//        System.out.println(deleteConfirm);
-//        postDao.delete(postDao.getOne(id));
-//        return "redirect:/posts/";
-//    }
-//
-//    @GetMapping("/posts/create")
-//    public String viewCreatePost(Model model) {
-//        model.addAttribute("post", new Post());
-//        return "posts/create";
-//    }
-//
-//    @PostMapping("/posts/create")
-//    public String createPost(@Valid @ModelAttribute Post post, Errors validation, Model model) {
-//        if (validation.hasErrors()) {
-//            model.addAttribute("errors", validation);
-//            model.addAttribute("post", post);
-//            return "posts/create";
-//        }
-//        User userDb = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        post.setUser(userDb);
-//        Post dbpost = postDao.save(post);
-//        emailService.prepareAndSend(dbpost, "you have created a new post", "you have successfully created a post with id " + dbpost.getId());
-//        return "redirect:/posts/" + dbpost.getId();
-//    }
-//
-//    @GetMapping("/posts.json")
-//    public @ResponseBody List<Post> viewAllAdsInJSONFormat() {
-//        return postDao.findAll();
-//    }
-//
-//    @GetMapping("/posts/ajax")
-//    public String viewAllAdsWithAjax() {
-//        return "posts/ajax";
-//    }
+    // send post data to the whole page
+    @GetMapping("/posts/{id}")
+    public String showPost(@PathVariable long id, Model model) {
+        model.addAttribute("post", postDao.getOne(id));
+        return "posts/show";
+    }
+
+    // send post data to the edit form
+    @GetMapping("/posts/{id}/edit")
+    public String showEditForm(@PathVariable long id, Model model) {
+        model.addAttribute("post", postDao.getOne(id));
+        return "posts/show";
+    }
+
+    @PostMapping("/posts/{id}/edit")
+    public String editPost(@PathVariable long id, @ModelAttribute Post editedPost) {
+        editedPost.setUser(postDao.getOne(id).getUser());
+        postDao.save(editedPost);
+        return "redirect:/posts/" + id;
+    }
+
+    @PostMapping("/posts/{id}/delete")
+    public String deletePost(@PathVariable long id,
+                             @RequestParam(name = "delete") String deleteConfirm)
+    {
+        System.out.println(deleteConfirm);
+        postDao.delete(postDao.getOne(id));
+        return "redirect:/posts/";
+    }
+
+    @GetMapping("/posts/create")
+    public String viewCreatePost(Model model) {
+        model.addAttribute("post", new Post());
+        return "posts/create";
+    }
+
+    @PostMapping("/posts/create")
+    public String createPost(@Valid @ModelAttribute Post post, Errors validation, Model model) {
+        if (validation.hasErrors()) {
+            model.addAttribute("errors", validation);
+            model.addAttribute("post", post);
+            return "posts/create";
+        }
+        User userDb = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        post.setUser(userDb);
+        Post dbpost = postDao.save(post);
+        emailService.prepareAndSend(dbpost, "you have created a new post", "you have successfully created a post with id " + dbpost.getId());
+        return "redirect:/posts/" + dbpost.getId();
+    }
+
+    @GetMapping("/posts.json")
+    public @ResponseBody List<Post> viewAllAdsInJSONFormat() {
+        return postDao.findAll();
+    }
+
+    @GetMapping("/posts/ajax")
+    public String viewAllAdsWithAjax() {
+        return "posts/ajax";
+    }
+
+    @PostMapping("/ads/{id}/disable")
+    public String disableAd(Long id) {
+        Post post = postDao.findById(id);
+        post.disable();
+        postDao.save(post);
+        return "redirect:/ads";
+    }
 }
