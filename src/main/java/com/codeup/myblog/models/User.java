@@ -78,6 +78,10 @@ public class User {
         this.avatarUrl = avatarUrl;
     }
 
+    public User(String userName) {
+        this.userName = userName;
+    }
+
     public User() {}
 
     public long getId() {
