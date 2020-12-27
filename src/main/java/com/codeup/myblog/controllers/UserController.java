@@ -44,7 +44,7 @@ public class UserController {
         usersDao.save(user);
 
         authenticate(user);
-        return "/posts/show";
+        return "posts/show";
 //        return "redirect:/login";
     }
 
