@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Controller
@@ -42,7 +43,7 @@ public class UserController {
         rolesDao.save(UserRole.blogger(blogger));
 
         authenticate(blogger);
-        return "posts/show";
+        return "redirect:/posts/show";
 //        return "redirect:/login";
     }
 
@@ -61,7 +62,7 @@ public class UserController {
         rolesDao.save(UserRole.admin(admin));
 
         authenticate(admin);
-        return "posts/show";
+        return "redirect:/posts/show";
 //        return "redirect:/login";
     }
 
@@ -76,6 +77,15 @@ public class UserController {
         SecurityContext context = SecurityContextHolder.getContext();
         context.setAuthentication(auth);
     }
+
+    @GetMapping("/dashboard")
+    public String dashboard(HttpServletRequest request) {
+        if (request.isUserInRole("ROLE_ADMIN")) {
+            return "redirect:/dashboard/admin"; // Suppose we already have an action for this one
+        }
+        return "redirect:/dashboard/blogger"; // And another for this one
+    }
+
 
     @GetMapping("/profile")
     public String showProfile(Model model) {
