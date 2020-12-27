@@ -1,3 +1,4 @@
+package com.codeup.myblog;
 
 import com.codeup.myblog.models.Post;
 import com.codeup.myblog.models.PostRepository;
@@ -36,7 +37,8 @@ public class DatabaseSeeder implements CommandLineRunner {
                 new User("ryan"),
                 new User("justin")
         );
-        userDao.save(users);
+        userDao.saveAll(users);
+//        userDao.save(users);
         return users;
     }
 
@@ -60,7 +62,8 @@ public class DatabaseSeeder implements CommandLineRunner {
             User randomUser = users.get(r.nextInt(users.size()));
             p.setUser(randomUser);
         }
-        postDao.save(posts);
+        postDao.saveAll(posts);
+//        postDao.save(posts);
     }
 
     @Override
