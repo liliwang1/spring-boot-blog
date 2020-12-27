@@ -15,6 +15,14 @@ public class UserRole {
     @Column(name = "role")
     private String role;
 
+    public static UserRole blogger(User user) {
+        return new UserRole(user.getId(), "ROLE_BLOGGER");
+    }
+
+    public static UserRole admin(User user) {
+        return new UserRole(user.getId(), "ROLE_ADMIN");
+    }
+
     public UserRole(long id, long userId, String role) {
         this.id = id;
         this.userId = userId;

@@ -1,9 +1,6 @@
 package com.codeup.myblog.controllers;
 
-import com.codeup.myblog.models.RoleRepository;
-import com.codeup.myblog.models.User;
-import com.codeup.myblog.models.UserRepository;
-import com.codeup.myblog.models.UserWithRoles;
+import com.codeup.myblog.models.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -30,20 +27,40 @@ public class UserController {
         this.rolesDao = rolesDao;
     }
 
-    @GetMapping("/register")
-    public String showSignupForm(Model model){
+    @GetMapping("user/register")
+    public String showSignupForm(Model model) {
         model.addAttribute("user", new User());
         return "users/register";
     }
 
-    @PostMapping("/register")
-    public String saveUser(@ModelAttribute User user){
-        String hash = passwordEncoder.encode(user.getPassword());
-        user.setPassword(hash);
-        user.setCreateDate(new Date());
-        usersDao.save(user);
+    @PostMapping("user/register")
+    public String saveUser(@ModelAttribute User blogger) {
+        String hash = passwordEncoder.encode(blogger.getPassword());
+        blogger.setPassword(hash);
+        blogger.setCreateDate(new Date());
+        usersDao.save(blogger);
+        rolesDao.save(UserRole.blogger(blogger));
 
-        authenticate(user);
+        authenticate(blogger);
+        return "posts/show";
+//        return "redirect:/login";
+    }
+
+    @GetMapping("admin/register")
+    public String showAdminSignupForm(Model model) {
+        model.addAttribute("user", new User());
+        return "users/register";
+    }
+
+    @PostMapping("admin/register")
+    public String saveAdmin(@ModelAttribute User admin) {
+        String hash = passwordEncoder.encode(admin.getPassword());
+        admin.setPassword(hash);
+        admin.setCreateDate(new Date());
+        usersDao.save(admin);
+        rolesDao.save(UserRole.admin(admin));
+
+        authenticate(admin);
         return "posts/show";
 //        return "redirect:/login";
     }
